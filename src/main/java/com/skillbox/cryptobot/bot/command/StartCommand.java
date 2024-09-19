@@ -37,6 +37,7 @@ public class StartCommand implements IBotCommand {
                 Привет! Данный бот помогает отслеживать стоимость биткоина.
                 Поддерживаемые команды:
                  /get_price - получить стоимость биткоина
+                 /get_subscription - получить текущую подписку
                 """);
         try {
             absSender.execute(answer);
