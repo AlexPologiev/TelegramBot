@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SubscribersRepository extends JpaRepository<Subscribers, Long> {
+
+    Subscribers findSubscribersByUserId(Long id);
 }
