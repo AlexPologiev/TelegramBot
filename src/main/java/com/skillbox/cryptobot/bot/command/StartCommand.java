@@ -22,6 +22,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 public class StartCommand implements IBotCommand {
 
     private final SubscribersRepository repository;
+
     @Override
     public String getCommandIdentifier() {
         return "start";
@@ -34,13 +35,12 @@ public class StartCommand implements IBotCommand {
 
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        SendMessage answer = new SendMessage();
-
         User user = message.getFrom();
-        Long userId = user.getId();;
+        Long userId = user.getId();
+
         Subscribers subscriber = repository.findSubscribersByUserId(userId);
 
-        if (subscriber == null){
+        if (subscriber == null) {
             Subscribers newSubscriber = new Subscribers();
             newSubscriber.setUserId(userId);
             repository.save(newSubscriber);
@@ -49,13 +49,15 @@ public class StartCommand implements IBotCommand {
             log.info("User with userID: " + userId + " already exists");
         }
 
+        SendMessage answer = new SendMessage();
         answer.setChatId(message.getChatId());
-
         answer.setText("""
                 Привет! Данный бот помогает отслеживать стоимость биткоина.
                 Поддерживаемые команды:
+                 /subscribe [число] - подписаться на стоимость биткоина в USD
                  /get_price - получить стоимость биткоина
                  /get_subscription - получить текущую подписку
+                 /unsubscribe - отменяет подписку на стоимость
                 """);
         try {
             absSender.execute(answer);
