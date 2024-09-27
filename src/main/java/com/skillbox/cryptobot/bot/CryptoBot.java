@@ -35,5 +35,6 @@ public class CryptoBot extends TelegramLongPollingCommandBot {
 
     @Override
     public void processNonCommandUpdate(Update update) {
+        System.out.println("hello");
     }
 }
