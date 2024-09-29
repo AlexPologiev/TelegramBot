@@ -12,10 +12,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
 
 import java.math.BigDecimal;
-import java.util.Arrays;
+
 
 /**
  * Обработка команды подписки на курс валюты
@@ -49,19 +49,22 @@ public class SubscribeCommand implements IBotCommand {
         BigDecimal price = new BigDecimal(priceText);
 
         Subscribers subscriber = repository.findSubscribersByUserId(userId);
-        subscriber.setPrice(price);
-        repository.save(subscriber);
+        if (subscriber != null) {
+            subscriber.setPrice(price);
+            repository.save(subscriber);
 
-        log.info("command: " + messageText + " price: " + price);
+            log.info("command: " + messageText + " price: " + price);
 
-        SendMessage answer = new SendMessage();
-        answer.setChatId(message.getChatId());
-        try {
-            answer.setText("Текущая цена биткоина " + TextUtil.toString(service.getBitcoinPrice()) + " USD"
-                    + "\nНовая подписка создана на стоимость " + price);
-            absSender.execute(answer);
-        } catch (Exception e) {
-            log.error("Ошибка возникла в /subscribe методе", e);
+            SendMessage answer = new SendMessage();
+            answer.setChatId(message.getChatId());
+            try {
+                answer.setText("Текущая цена биткоина " + TextUtil.toString(service.getBitcoinPrice()) + " USD"
+                        + "\nНовая подписка создана на стоимость " + price);
+                absSender.execute(answer);
+            } catch (Exception e) {
+                log.error("Ошибка возникла в /subscribe методе", e);
+            }
         }
+
     }
 }
