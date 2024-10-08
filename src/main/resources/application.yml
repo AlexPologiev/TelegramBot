@@ -9,7 +9,7 @@ telegram:
         value: 10
         unit: MINUTES
       rate:
-        cron: "0 */1 * * * *"
+        cron: "0 */2 * * * *"
 
 binance:
   api:
