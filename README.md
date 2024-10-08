@@ -43,6 +43,6 @@
 - Java 17
 - SpringBoot 3.1.5, Spring Data JPA
 - Postgres
-- Gradle****
+- Gradle
 
 
