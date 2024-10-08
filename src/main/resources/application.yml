@@ -6,10 +6,10 @@ telegram:
     token: ${BOT_TOKEN}
     notify:
       delay:
-        value: 1
+        value: 10
         unit: MINUTES
       rate:
-        cron: "0/5 * * * * ?"
+        cron: "0 */1 * * * *"
 
 binance:
   api:

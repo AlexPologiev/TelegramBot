@@ -21,7 +21,6 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 @EnableScheduling
-@EnableAsync
 public class CyclicSendMessageService {
 
     private final CryptoBot bot;
@@ -34,7 +33,6 @@ public class CyclicSendMessageService {
     @Value("${telegram.bot.notify.delay.value}")
     private Long minimalGap;   //minutes
 
-    @Async
     @Scheduled(cron = "${telegram.bot.notify.rate.cron}")
     public void cyclicSendMessage() {
 
@@ -71,8 +69,10 @@ public class CyclicSendMessageService {
     public void sendMessageToAddressees(BigDecimal price) {
         for (Long userId : addressees.keySet()) {
             LocalTime timeOfLastSending = addressees.get(userId);
-            LocalTime nowTime = LocalTime.now();
-            if (nowTime.isAfter(timeOfLastSending.plusMinutes(minimalGap))) {
+            LocalTime nowTime = LocalTime.now().plusNanos(1L);
+            LocalTime permittedTime = timeOfLastSending.plusMinutes(minimalGap);
+
+            if (nowTime.isAfter(permittedTime)) {
                 addressees.put(userId, nowTime);
                 bot.sendMessage(userId, TEXT_TO_MESSAGE + TextUtil.toString(price) + USD);
             }

@@ -4,12 +4,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.time.LocalTime;
+
 @SpringBootApplication
 //@EnableScheduling
 public class CryptoBotApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CryptoBotApplication.class, args);
-    }
+        SpringApplication.run(CryptoBotApplication.class, args);}
 
 }

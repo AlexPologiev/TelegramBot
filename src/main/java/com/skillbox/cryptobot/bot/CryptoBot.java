@@ -37,7 +37,15 @@ public class CryptoBot extends TelegramLongPollingCommandBot {
 
     @Override
     public void processNonCommandUpdate(Update update) {
-        System.out.println("hello");
+        Long chatId = update.getMessage().getChatId();
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.setText("Неверный формат команды!\nВведите команду /start для справки.");
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            log.info(e.getMessage());
+        }
     }
 
     public void sendMessage(Long chatId, String textToSend) {
